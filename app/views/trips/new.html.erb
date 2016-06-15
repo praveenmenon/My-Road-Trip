@@ -2,22 +2,22 @@
 <div class="container" class="col-sm-3 control-label">
 	<br></br>
 	<br></br>
-	<%= form_for :trip, :url => trips_path, :method=> 'post',:html => {:class =>"form-horizontal",:id =>"event_form"} do |f| %>
+	<%= form_for :trip, url: trips_path, method: 'post', html: { class:"form-horizontal", id: "event_form" } do |f| %>
 
-	<%= f.text_field :title,:class =>"form-control", :id=>"title_name",:placeholder => "Title" %>
+	<%= f.text_field :title, class: "form-control", id: "title_name", placeholder: "Title" %>
 	<br></br>
-	<%= f.text_area :description,:size=> "50x7",:class =>"form-control", :id=>"venue_name",:placeholder => "Description" %>
+	<%= f.text_area :description, size: "50x7", class: "form-control", id: "venue_name", placeholder: "Description" %>
 	<br></br>
 
 	<label for="inputstatus">Display pic</label>
 	<div class="form-group">
 		<div class="col-sm-3">
 			<div class="event-title">
-				<%= image_tag "trip1.jpg", :alt=>"image", :class=>"img-thumbnail", :id => "preview" %>
+				<%= image_tag "trip1.jpg", alt: "image", class: "img-thumbnail", id: "preview" %>
 			</div>
 		</div>
 		<div class="col-sm-3">
-			<%= f.file_field :main_image, :id=>"exampleInputFile" %>
+			<%= f.file_field :main_image, id: "exampleInputFile" %>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -28,12 +28,12 @@
 
  <div class="row route-ml">
    <div class=" row col-md-6 form-horizontal" id="calculate-route">
-     <%= f.text_field :from_address, :id=>'from', :class =>"form-control", :required=> true, :placeholder=>"From address", :onfocus=>"geolocate()"%>
+     <%= f.text_field :from_address, id: 'from', class: "form-control", required: true, placeholder: "From address"%>
      <a id="from-link" href="#">Get my position</a>
      <br></br>
      <br></br>
 
-     <%= f.text_field :to_address, :id=>'to', :class =>"form-control", :required=>true, :placeholder=>"To address" %>
+     <%= f.text_field :to_address, id: 'to', class: "form-control", required: true, placeholder: "To address" %>
      <a id="to-link" href="#">Get my position</a>
      <br></br>
      <br></br>
@@ -50,15 +50,11 @@
    </div>
  </div>
 
-  <label for="input-1" class="control-label">Rate This</label>
-  <input id="input-1" name="input-1" value="4.3" class="rating">
-
-
 
  <br></br>
- <%= f.text_area :content ,:rows=>"number" ,:class=>"tinymce" ,:rows=>"40" ,:cols=>"120",:placeholder => "What is your story"%>
+ <%= f.text_area :content, rows: "number", class: "tinymce", rows: "40", cols: "120", placeholder: "What is your story" %>
  <br></br>
- <%= f.submit "Submit", :class=>"btn btn-primary ok-btn-padding" %>
+ <%= f.submit "Submit", class: "btn btn-primary ok-btn-padding" %>
  <button type="button" class="btn btn-default ok-btn-padding" data-dismiss="modal">Cancel</button>
  <%end%>
 
@@ -74,10 +70,18 @@
       center: {lat: 20.5937, lng: 78.9629},
       zoom: 5
     });
-    var input = /** @type {!HTMLInputElement} */(
+
+    /** autocomplete form and to text_field */
+    var from = /** @type {!HTMLInputElement} */(
       document.getElementById('from'));
 
-    var autocomplete = new google.maps.places.Autocomplete(input);
+    var to = /** @type {!HTMLInputElement} */(
+      document.getElementById('to'));
+
+    var autocomplete = new google.maps.places.Autocomplete(from);
+    autocomplete.bindTo('bounds', map);
+
+    var autocomplete = new google.maps.places.Autocomplete(to);
     autocomplete.bindTo('bounds', map);
   }
 
