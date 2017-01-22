@@ -1,10 +1,18 @@
 <div id="content">
-  <div class="container main-column">
+  <div class="container no-right-padding main-column">
     <div class="row margin-vert-30">
       <!-- Main Column -->
       <div class="col-md-9 background-white">
         <!-- Trip Post -->
         <%if @trips.present?%>
+        <%= form_tag trips_list_path, method: :get do %>
+        <div class="col-md-11 row margin-top-10">
+          <%= text_field_tag :query, params[:query], class: "form-control" %>
+        </div>
+        <div class="col-md-1 margin-top-10">
+          <%= submit_tag "Search", name: nil, class: "btn btn-primary"  %>
+        </div>
+        <% end %>
         <%@trips.each do |trip|%>
         <%= render :partial=>"layouts/common/trip_post",:locals=>{:trip => trip}%>
         <%end%>
@@ -16,14 +24,13 @@
       </div>
       <!-- End Main Column -->
       <!-- Side Column -->
-      <div class="col-md-3 recent-trip">
-        <div class="blog-tags">
-        </div>
+      <div class="col-md-3">
         <!-- Recent Posts -->
-        <div class="recent-posts">
-          <h3>Recently Added Trips</h3>
+        <div class="recent-posts col-md-11 background-white">
+        <div class="clearfix"></div>
+          <h3 class="margin-top-10">Recently Added Trips</h3>
           <ul class="posts-list margin-top-10">
-            <%@trips.last(5).each do |t|%>
+            <%@recent_trips.last(5).each do |t|%>
             <li>
               <div class="recent-post">
                 <%= link_to (image_tag t.main_image.thumb.url, :class=>"pull-left small"), trip_path(t)%>
@@ -41,7 +48,7 @@
         <!-- End Recent Posts -->
 
         <!-- Most Liked Posts -->
-        <div class="recent-posts">
+        <div class="recent-posts col-md-11 background-white">
           <h3>Most Liked Trips</h3>
           <ul class="posts-list margin-top-10">
             <%most_liked_trip.first(2).each do |t|%>

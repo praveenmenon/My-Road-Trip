@@ -63,6 +63,12 @@ body {
   padding-right: 40px;
   width: 100%;
 }
+.container.no-right-padding {
+  max-width: 1190px;
+  padding-left: 40px;
+  padding-right: 0px;
+  width: 100%;
+}
 
 .container.no-padding {
   padding-left: 20px !important;

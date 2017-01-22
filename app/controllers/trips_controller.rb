@@ -47,6 +47,8 @@ class TripsController < ApplicationController
     @trip.waypoints = @trip.checkpoint_address(params["trip"])
     if @trip.valid? && @trip.errors.blank?
       @trip.update(trip_params)
+      # elastic search update index
+      Trip.searchkick_index.refresh 
       respond_to do |format|
         format.html { redirect_to trip_path, notice: 'Trip Updated!' }
       end
@@ -83,7 +85,12 @@ class TripsController < ApplicationController
   end
 
   def list_trip
-    @trips = Trip.order("updated_at desc").page(params[:page]).per(5)
+    if params[:query].present?
+      @trips = Trip.search(params)
+    else
+      @trips = Trip.order("updated_at desc").page(params[:page]).per(5)
+    end
+    @recent_trips = Trip.all.order("updated_at desc")
   end
 
   private

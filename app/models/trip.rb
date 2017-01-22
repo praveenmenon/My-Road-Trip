@@ -7,14 +7,9 @@ class Trip < ActiveRecord::Base
   mount_uploader :main_image, ImageUploader
 
   # Elastic Search
-  include Tire::Model::Search
-  include Tire::Model::Callbacks
 
   def self.search(params)
-    tire.search(load: true, page: params[:page], per: 6) do
-      query { string params[:query] } if params[:query].present?
-      sort { by :updated_at, 'desc'}
-    end
+    Trip.where('title Like ?', "%#{params[:query]}%").order("updated_at desc").page(params[:page]).per(5)
   end
 
   def checkpoint_address(params)
