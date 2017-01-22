@@ -21,6 +21,7 @@ ratings:
   - "**.go"
 exclude_paths:
 - spec/**/*
+- app/assets/*
 - "**/vendor/**/*"
 - lib/assets/**/*
 - solr/**/*
